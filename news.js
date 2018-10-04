@@ -4,7 +4,11 @@ var recherche_courante_news=[]; // tableau d'objets de type resultats (avec titr
 
 function ajouter_recherche()
 {
-    
+    recherche_courante = $("#zone_saisie").val();
+    if(recherches.indexOf(recherche_courante) == -1){
+        recherches.push(recherche_courante);
+        $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(&quot;" + recherche_courante + "&quot;)\">" + recherche_courante + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(" + recherche_courante + ")\"/> </p>")
+    }
 }
 
 function supprimer_recherche(e)
@@ -21,8 +25,9 @@ function supprimer_recherche(e)
 
 
 function selectionner_recherche(e)
-{
-   
+{ 
+    recherche_courante = e;
+    $("#zone_saisie").val(e);
 }
 
 
