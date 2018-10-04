@@ -4,19 +4,25 @@ var recherche_courante_news=[]; // tableau d'objets de type resultats (avec titr
 
 function ajouter_recherche()
 {
-
+    
 }
 
 function supprimer_recherche(e)
-{ 
-
+{
+   var labels =  $('p').children('label');
+   for(var i=0; i<labels.size(); i++){
+        if(labels.get(i).value == e){
+            var elem = labels.get(i)
+        }
+   }
+   elem.parent().remove();
 
 }
 
 
 function selectionner_recherche(e)
-{ 
-
+{
+   
 }
 
 
@@ -28,37 +34,25 @@ function init()
 
 function rechercher_nouvelles()
 {
-	
-	
+
+
 }
 
 
 function maj_resultats(res)
 {
 
-	
+
 }
 
 
 function sauver_nouvelle(e)
 {
-	
+
 }
 
 
 function supprimer_nouvelle(e)
 {
-	
+
 }
-
-
-
-
-
-	
-
-
-
-
-
-
