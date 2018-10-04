@@ -5,28 +5,22 @@ var recherche_courante_news=[]; // tableau d'objets de type resultats (avec titr
 function ajouter_recherche()
 {
     recherche_courante = $("#zone_saisie").val();
-    if(recherches.indexOf(recherche_courante) == -1){
+    if(recherche_courante !== "" && recherches.indexOf(recherche_courante) == -1){
         recherches.push(recherche_courante);
-        $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(&quot;" + recherche_courante + "&quot;)\">" + recherche_courante + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(&quot;" + recherche_courante + "&quot;)\"/> </p>")
+        $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(this)\">" + recherche_courante + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(this)\"/> </p>")
     }
 }
 
 function supprimer_recherche(e)
 {
-   var labels =  $('p').children('label');
-   for(var i=0; i<labels.size(); i++){
-        if(labels.get(i).value == e){
-            var elem = labels.get(i)
-        }
-   }
-   elem.parent().remove();
-
+    recherches.splice(recherches.indexOf(recherche_courante), 1);
+    $(e).parent().remove();
 }
 
 function selectionner_recherche(e)
 { 
-    recherche_courante = e;
-    $("#zone_saisie").val(e);
+    recherche_courante = $(e).parent().find("label").text();
+    $("#zone_saisie").val(recherche_courante);
 }
 
 
