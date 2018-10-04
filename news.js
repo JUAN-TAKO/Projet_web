@@ -13,10 +13,10 @@ function ajouter_recherche()
 
 function supprimer_recherche(e)
 {
-   var labels =  $('p').children('label');
-   for(var i=0; i<labels.size(); i++){
-        if(labels.get(i).value == e){
-            var elem = labels.get(i)
+   var labels =  $('p').children('label').val();
+   for(var i=0; i<labels.lenght; i++){
+        if(labels.get(i) == e){
+            var elem = labels.get(i);
         }
    }
    elem.parent().remove();
