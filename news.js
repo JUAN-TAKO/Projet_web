@@ -45,11 +45,11 @@ function afficher_resultat(res, saved){
         str = "</span><span class=\"action_news\" onclick=\"ajouter_nouvelle(this)\"><img src=\"horloge15.jpg\"/></span></p>"
 
     $("#resultats").append("<p class=\"titre_result\"><a class=\"titre_news\" href=\""
-    + decodeEntities(parsed[i]["url"])
+    + decodeEntities(res["url"])
     + "\" target=\"_blank\">"
-    + decodeEntities(parsed[i]["titre"])
+    + decodeEntities(res["titre"])
     + "</a><span class=\"date_news\">"
-    + format(decodeEntities(parsed[i]["date"]))
+    + format(decodeEntities(res["date"]))
     + str);
 }
 function init()
