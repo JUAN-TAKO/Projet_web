@@ -42,7 +42,7 @@ function afficher_resultat(res, saved){
     if(saved)
         str = "</span><span class=\"action_news\" onclick=\"supprimer_nouvelle(this)\"><img src=\"disk15.jpg\"/></span></p>";
     else
-        str = "</span><span class=\"action_news\" onclick=\"ajouter_nouvelle(this)\"><img src=\"horloge15.jpg\"/></span></p>"
+        str = "</span><span class=\"action_news\" onclick=\"sauver_nouvelle(this)\"><img src=\"horloge15.jpg\"/></span></p>"
 
     $("#resultats").append("<p class=\"titre_result\"><a class=\"titre_news\" href=\""
     + decodeEntities(res["url"])
