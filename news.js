@@ -23,6 +23,7 @@ function selectionner_recherche(e)
 { 
     recherche_courante = $(e).parent().find("label").text();
     $("#zone_saisie").val(recherche_courante);
+    rechercher_nouvelles();
 }
 
 
@@ -35,6 +36,7 @@ function init()
             $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(this)\">" + cookie[i] + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(this)\"/> </p>");
         }
     }
+    rechercher_nouvelles();
 }
 
 function ajax_get_request(callback, url, async){
