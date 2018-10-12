@@ -15,8 +15,9 @@ function ajouter_recherche()
 
 function supprimer_recherche(e)
 {
-    recherches.splice(recherches.indexOf(recherche_courante), 1);
+    recherches.splice(recherches.indexOf($(e).parent().find("label").text()), 1);
     $(e).parent().remove();
+    $.cookie("recherches", JSON.stringify(recherches), {expires : 1000});
 }
 
 function selectionner_recherche(e)
