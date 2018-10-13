@@ -28,7 +28,7 @@ function selectionner_recherche(e)
     var cookie = $.cookie(recherche_courante);
     if(cookie){
         var parsed = JSON.parse(cookie);
-        for(var i = 0; i < cookie.length; i++){
+        for(var i = 0; i < parsed.length; i++){
             recherche_courante_news.push(parsed[i]);
             afficher_resultat(parsed[i], true);
         }
