@@ -103,8 +103,8 @@ function maj_resultats(res)
 
 function make_nouvelle_object(e){
     var url = $(e).parent().find(".titre_news").attr("href");
-    var titre = $(e).parent().find(".titre_news").val();
-    var date = $(e).parent().find(".date_news").val();
+    var titre = $(e).parent().find(".titre_news").text();
+    var date = $(e).parent().find(".date_news").text();
     var obj =  {"url":url, "titre":titre, "date":date};
     return obj;
 
