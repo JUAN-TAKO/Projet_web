@@ -105,7 +105,8 @@ function make_nouvelle_object(e){
     var url = $(e).parent().find(".titre_news").attr("href");
     var titre = $(e).parent().find(".titre_news").val();
     var date = $(e).parent().find(".date_news").val();
-    return {"url":url, "titre":titre, "date":date};
+    var obj =  {"url":url, "titre":titre, "date":date};
+    return obj;
 
 }
 
@@ -113,7 +114,7 @@ function sauver_nouvelle(e)
 {
     $(e).find("img").attr("src","disk15.jpg");
     $(e).attr("onclick", "supprimer_nouvelle(this)");
-    var objet_resultat = make_nouvelle_object();
+    var objet_resultat = make_nouvelle_object(e);
     if(indexOf(recherche_courante_news, objet_resultat) < 0){
         recherche_courante_news.push(objet_resultat);
         console.log("new");
@@ -125,7 +126,7 @@ function supprimer_nouvelle(e)
 {
     $(e).find("img").attr("src","horloge15.jpg");
     $(e).attr("onclick", "sauver_nouvelle(this)");
-    var objet_resultat = make_nouvelle_object();
+    var objet_resultat = make_nouvelle_object(e);
     var index = indexOf(recherche_courante_news, objet_resultat);
     if(index >= 0){
         recherche_courante_news.splice(index, 1);
