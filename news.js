@@ -93,10 +93,11 @@ function rechercher_nouvelles()
 
 function maj_resultats(res)
 {
-    console.log(res);
+    
     var parsed = JSON.parse(res);
+    console.log(parsed[0]);
     for(var i = 0; i < parsed.length; i++){
-        afficher_resultat(parsed[i], indexOf(recherche_courante_news, make_nouvelle_object(parsed[i])) >= 0);
+        afficher_resultat(parsed[i], indexOf(recherche_courante_news, parsed[i]) >= 0);
     }
     
     $("#wait").css("display", "none");
