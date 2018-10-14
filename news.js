@@ -99,9 +99,9 @@ function maj_resultats(res)
     for(var i = 0; i < parsed.length; i++){
         
         var decoded = $.extend( true, {}, parsed[i]);  // deep copy  
-        copy["titre"] = decodeEntities(copy["titre"]);
-        copy["date"] = format(decodeEntities(copy["date"]));
-        copy["url"] = decodeEntities(copy["url"]);
+        decoded["titre"] = decodeEntities(decoded["titre"]);
+        decoded["date"] = format(decodeEntities(decoded["date"]));
+        decoded["url"] = decodeEntities(decoded["url"]);
 
         afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
     }
