@@ -39,11 +39,11 @@ function selectionner_recherche(e)
 
 function afficher_resultat(res, saved){
     var str;
-    if(saved)
+    if(saved){
         str = "</span><span class=\"action_news\" onclick=\"supprimer_nouvelle(this)\"><img src=\"disk15.jpg\"/></span></p>";
-    else
+    }else{
         str = "</span><span class=\"action_news\" onclick=\"sauver_nouvelle(this)\"><img src=\"horloge15.jpg\"/></span></p>"
-
+    }
     $("#resultats").append("<p class=\"titre_result\"><a class=\"titre_news\" href=\""
     + decodeEntities(res["url"])
     + "\" target=\"_blank\">"
@@ -114,8 +114,10 @@ function sauver_nouvelle(e)
     $(e).find("img").attr("src","disk15.jpg");
     $(e).attr("onclick", "supprimer_nouvelle(this)");
     var objet_resultat = make_nouvelle_object();
-    if(indexOf(recherche_courante_news, objet_resultat) < 0)
+    if(indexOf(recherche_courante_news, objet_resultat) < 0){
         recherche_courante_news.push(objet_resultat);
+    }
+    $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
 }
 
 function supprimer_nouvelle(e)
@@ -124,7 +126,9 @@ function supprimer_nouvelle(e)
     $(e).attr("onclick", "sauver_nouvelle(this)");
     var objet_resultat = make_nouvelle_object();
     var index = indexOf(recherche_courante_news, objet_resultat);
-    if(index >= 0)
+    if(index >= 0){
         recherche_courante_news.splice(index, 1);
+    }
     $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
+
 }
