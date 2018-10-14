@@ -115,6 +115,10 @@ function sauver_nouvelle(e)
     $(e).find("img").attr("src","disk15.jpg");
     $(e).attr("onclick", "supprimer_nouvelle(this)");
     var objet_resultat = make_nouvelle_object(e);
+
+    console.log("add");
+    console.log(objet_resultat);
+
     if(indexOf(recherche_courante_news, objet_resultat) < 0){
         recherche_courante_news.push(objet_resultat);
         console.log("new");
@@ -128,6 +132,8 @@ function supprimer_nouvelle(e)
     $(e).attr("onclick", "sauver_nouvelle(this)");
     var objet_resultat = make_nouvelle_object(e);
     var index = indexOf(recherche_courante_news, objet_resultat);
+    console.log("supp");
+    console.log(objet_resultat);
     if(index >= 0){
         recherche_courante_news.splice(index, 1);
         console.log("delete");
