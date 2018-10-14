@@ -93,6 +93,7 @@ function rechercher_nouvelles()
 
 function maj_resultats(res)
 {
+    console.log(res);
     var parsed = JSON.parse(res);
     for(var i = 0; i < parsed.length; i++){
         afficher_resultat(parsed[i], indexOf(recherche_courante_news, make_nouvelle_object(parsed[i])) >= 0);
@@ -116,12 +117,8 @@ function sauver_nouvelle(e)
     $(e).attr("onclick", "supprimer_nouvelle(this)");
     var objet_resultat = make_nouvelle_object(e);
 
-    console.log("add");
-    console.log(objet_resultat);
-
     if(indexOf(recherche_courante_news, objet_resultat) < 0){
         recherche_courante_news.push(objet_resultat);
-        console.log("new");
     }
     $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
 }
@@ -132,11 +129,8 @@ function supprimer_nouvelle(e)
     $(e).attr("onclick", "sauver_nouvelle(this)");
     var objet_resultat = make_nouvelle_object(e);
     var index = indexOf(recherche_courante_news, objet_resultat);
-    console.log("supp");
-    console.log(objet_resultat);
     if(index >= 0){
         recherche_courante_news.splice(index, 1);
-        console.log("delete");
     }
     $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
 
