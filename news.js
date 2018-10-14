@@ -100,9 +100,9 @@ function maj_resultats(res)
     for(var i = 0; i < parsed.length; i++){
         
         var copy = parsed[i];    
-        copy[i]["date"] = format(decodeEntities(parsed[i]["date"]));
+        copy["date"] = format(decodeEntities(parsed[i]["date"]));
         
-        afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy[i]) >= 0);
+        afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
     }
     
     $("#wait").css("display", "none");
