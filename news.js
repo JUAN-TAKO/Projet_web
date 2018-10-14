@@ -100,7 +100,7 @@ function maj_resultats(res)
     for(var i = 0; i < parsed.length; i++){
         
         var copy = parsed[i];    
-        copy["date"] = format(decodeEntities(parsed[i]["date"]));
+        copy["date"] = format(decodeEntities(copy["date"]));
         
         afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
     }
