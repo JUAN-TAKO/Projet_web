@@ -90,7 +90,6 @@ function rechercher_nouvelles()
     $("#wait").css("display", "block");
 }
 
-
 function maj_resultats(res)
 {
     
@@ -99,9 +98,11 @@ function maj_resultats(res)
 
     for(var i = 0; i < parsed.length; i++){
         
-        var copy = $.extend( true, {}, parsed[i]);  // deep copy  
+        var decoded = $.extend( true, {}, parsed[i]);  // deep copy  
+        copy["titre"] = decodeEntities(copy["titre"]);
         copy["date"] = format(decodeEntities(copy["date"]));
-        
+        copy["url"] = decodeEntities(copy["url"]);
+
         afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
     }
     
@@ -114,7 +115,6 @@ function make_nouvelle_object(e){
     var date = $(e).parent().find(".date_news").text();
     var obj =  {"titre":titre, "date":date, "url":url};
     return obj;
-
 }
 
 function sauver_nouvelle(e)
