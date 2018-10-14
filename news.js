@@ -103,7 +103,7 @@ function maj_resultats(res)
         decoded["date"] = format(decodeEntities(decoded["date"]));
         decoded["url"] = decodeEntities(decoded["url"]);
 
-        afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
+        afficher_resultat(parsed[i], indexOf(recherche_courante_news, decoded) >= 0);
     }
     
     $("#wait").css("display", "none");
