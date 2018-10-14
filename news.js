@@ -99,10 +99,10 @@ function maj_resultats(res)
 
     for(var i = 0; i < parsed.length; i++){
         
-        var copy = parsed[i];    
-        copy["date"] = format(decodeEntities(copy["date"]));
+        //var copy = parsed[i];    
+        //copy["date"] = format(decodeEntities(copy["date"]));
         
-        afficher_resultat(parsed[i], indexOf(recherche_courante_news, copy) >= 0);
+        afficher_resultat(parsed[i], indexOf(recherche_courante_news, parsed[i]) >= 0);
     }
     
     $("#wait").css("display", "none");
