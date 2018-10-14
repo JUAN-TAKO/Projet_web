@@ -97,6 +97,7 @@ function maj_resultats(res)
     var parsed = JSON.parse(res);
     console.log(parsed[0]);
     for(var i = 0; i < parsed.length; i++){
+        parsed[i]["date"] = format(parsed[i]["date"]);
         afficher_resultat(parsed[i], indexOf(recherche_courante_news, parsed[i]) >= 0);
     }
     
