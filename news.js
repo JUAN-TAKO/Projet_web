@@ -107,7 +107,7 @@ function make_nouvelle_object(e){
     var url = $(e).parent().find(".titre_news").attr("href");
     var titre = $(e).parent().find(".titre_news").text();
     var date = $(e).parent().find(".date_news").text();
-    var obj =  {"url":url, "titre":titre, "date":date};
+    var obj =  {"titre":titre, "date":date, "url":url};
     return obj;
 
 }
