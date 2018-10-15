@@ -1,65 +1,38 @@
-var recherches=[];//tableau contenant des chaines de caracteres correspondant aux recherches stockees
-var recherche_courante;// chaine de caracteres correspondant a la recherche courante
-var recherche_courante_news=[]; // tableau d'objets de type resultats (avec titre, date et url)
 
 function ajouter_recherche()
 {
-    recherche_courante = $("#zone_saisie").val();
-    if(recherche_courante !== "" && recherches.indexOf(recherche_courante) == -1){
-        recherches.push(recherche_courante);
-        $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(this)\">" + recherche_courante + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(this)\"/> </p>");
-        $.cookie("recherches", JSON.stringify(recherches), {expires : 1000});
-
-    }
+    model.ajouter_recherche(view.get_zone());
 }
 
 function supprimer_recherche(e)
 {
-    recherches.splice(recherches.indexOf($(e).parent().find("label").text()), 1);
-    $(e).parent().remove();
-    $.cookie("recherches", JSON.stringify(recherches), {expires : 1000});
+    model.supprimer_recherche(view.get_label(e));
 }
 
 function selectionner_recherche(e)
 { 
-    recherche_courante = $(e).parent().find("label").text();
-    $("#zone_saisie").val(recherche_courante);
+    model.set_recherche(view.get_label(e));
+    view.set_zone(model.get_recherche());
 
-    var cookie = $.cookie(recherche_courante);
+    var cookie = model.get_saved_nouvelles();
     if(cookie){
-        var parsed = JSON.parse(cookie);
-        for(var i = 0; i < parsed.length; i++){
-            recherche_courante_news.push(parsed[i]);
-            afficher_resultat(parsed[i], true);
+        for(var i = 0; i < cookie.length; i++){
+            model.ajouter_nouvelle_direct(cookie[i]);
+            view.afficher_resultat(cookie[i], true);
         }
     }
 
     rechercher_nouvelles();
 }
 
-function afficher_resultat(res, saved){
-    var str;
-    if(saved){
-        str = "</span><span class=\"action_news\" onclick=\"supprimer_nouvelle(this)\"><img src=\"disk15.jpg\"/></span></p>";
-    }else{
-        str = "</span><span class=\"action_news\" onclick=\"sauver_nouvelle(this)\"><img src=\"horloge15.jpg\"/></span></p>"
-    }
-    $("#resultats").append("<p class=\"titre_result\"><a class=\"titre_news\" href=\""
-    + decodeEntities(res["url"])
-    + "\" target=\"_blank\">"
-    + decodeEntities(res["titre"])
-    + "</a><span class=\"date_news\">"
-    + format(decodeEntities(res["date"]))
-    + str);
-}
+
 function init()
 {
-    var cookie = $.cookie("recherches");
-    if(!!cookie){
-        cookie = JSON.parse(cookie);
+    var cookie = model.get_saved_recherche();
+    if(cookie){
         for(var i = 0; i < cookie.length; i++){
-            recherches.push(cookie[i]);
-            $("#recherches-stockees").append("<p class=\"titre-recherche\"><label onclick=\"selectionner_recherche(this)\">" + cookie[i] + "</label><img src=\"croix30.jpg\" class=\"icone-croix\" onclick=\"supprimer_recherche(this)\"/> </p>");
+            model.ajouter_recherche_direct(cookie[i]);
+            view.ajouter_recherche(cookie[i]);    
         }
     }
     rechercher_nouvelles();
@@ -79,65 +52,37 @@ function ajax_get_request(callback, url, async){
 
 function rechercher_nouvelles()
 {
-    $("#resultats").empty();
-    recherche_courante = $("#zone_saisie").val();
-    var cookie = $.cookie(recherche_courante);
-    if(!!cookie){
-        recherche_courante_news = JSON.parse(cookie);
-    }
-    var url = "search.php?data=" + encodeURI(recherche_courante);
+    view.clear_results();
+    model.set_recherche(view.get_zone());
+
+    model.load_recherche_news();
+
+    var url = "search.php?data=" + encodeURI(model.get_recherche());
     ajax_get_request(maj_resultats, url, true);
-    $("#wait").css("display", "block");
+    view.start_loading();
 }
 
 function maj_resultats(res)
-{
-    
+{    
     var parsed = JSON.parse(res);
 
-
     for(var i = 0; i < parsed.length; i++){
-        
-        var decoded = $.extend( true, {}, parsed[i]);  // deep copy  
-        decoded["titre"] = decodeEntities(decoded["titre"]);
-        decoded["date"] = format(decodeEntities(decoded["date"]));
-        decoded["url"] = decodeEntities(decoded["url"]);
-
-        afficher_resultat(parsed[i], indexOf(recherche_courante_news, decoded) >= 0);
+        var decoded = model.decode_nouvelle();
+        view.afficher_resultat(parsed[i], indexOf(recherche_courante_news, decoded) >= 0);
     }
     
-    $("#wait").css("display", "none");
+    view.stop_loading();
 }
 
-function make_nouvelle_object(e){
-    var url = $(e).parent().find(".titre_news").attr("href");
-    var titre = $(e).parent().find(".titre_news").text();
-    var date = $(e).parent().find(".date_news").text();
-    var obj =  {"titre":titre, "date":date, "url":url};
-    return obj;
-}
 
 function sauver_nouvelle(e)
-{
-    $(e).find("img").attr("src","disk15.jpg");
-    $(e).attr("onclick", "supprimer_nouvelle(this)");
-    var objet_resultat = make_nouvelle_object(e);
-
-    if(indexOf(recherche_courante_news, objet_resultat) < 0){
-        recherche_courante_news.push(objet_resultat);
-    }
-    $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
+{   
+    var objet_resultat = view.make_nouvelle_object(e);
+    model.ajouter_nouvelle(objet_resultat);
 }
 
 function supprimer_nouvelle(e)
-{
-    $(e).find("img").attr("src","horloge15.jpg");
-    $(e).attr("onclick", "sauver_nouvelle(this)");
-    var objet_resultat = make_nouvelle_object(e);
-    var index = indexOf(recherche_courante_news, objet_resultat);
-    if(index >= 0){
-        recherche_courante_news.splice(index, 1);
-    }
-    $.cookie(recherche_courante, JSON.stringify(recherche_courante_news), {expires : 1000});
-
+{   
+    var objet_resultat = view.make_nouvelle_object(e);
+    model.supprimer_nouvelle(objet_resultat);
 }
